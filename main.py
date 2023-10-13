@@ -1,26 +1,27 @@
-# This example requires the 'message_content' intent.
-
 import discord
+from discord.ext import commands
+import asyncio
 import json
+import os
 
-intents = discord.Intents.default()
-intents.message_content = True
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix="-", intents=intents)
 
-client = discord.Client(intents=intents)
-
-@client.event
+@bot.event
 async def on_ready():
-    print(f'We have logged in as {client.user}')
+    print(f'bot is online.')
+        
+async def load_extensions():
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            await bot.load_extension(f"cogs.{filename[:-3]}")
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+async def main():
+    with open("token.json", "r") as tokenFile:
+        token = json.load(tokenFile)["TOKEN"]
+    async with bot:
+        await load_extensions()
+        await bot.start(token)
 
-    if  '狗勾' in message.content:
-        await message.channel.send('汪！')
-
-with open("token.json", "r") as tokenFile:
-    token = json.load(tokenFile)["TOKEN"]
-
-client.run(token)
+if __name__ == "__main__":
+    asyncio.run(main())
