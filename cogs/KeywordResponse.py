@@ -218,9 +218,9 @@ class KeywordResponse(BaseCog):
 
         if "好乖" in message.content or "很棒" in message.content or "乖" in message.content:
             sentences = [
-                f"（{adj.happy()}地{action.wag}，並{action.gaze}你）",
-                f"（{adj.happy()}地{action.wag}{action.gaze}你）",
-                f"（{adj.happy()}邊{action.wag}，邊{action.gaze}你）",
+                f"（{adj.happy()}地{action.wag()}，並{action.gaze()}你）",
+                f"（{adj.happy()}地{action.wag()}{action.gaze()}你）",
+                f"（{adj.happy()}邊{action.wag()}，邊{action.gaze()}你）",
             ]
             await message.channel.send(choice(sentences))
 
