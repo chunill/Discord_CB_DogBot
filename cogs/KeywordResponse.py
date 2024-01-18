@@ -11,12 +11,12 @@ class KeywordResponse(BaseCog):
         super().__init__(bot)
         self.action = Action()
         self.bark = Bark()
-        self.keyword_pre_handler = {
+        self.pre_keyword = {
             "過來": self.action.come,
             "摸": self.action.touch,
             "蹭": self.action.nuzzle,
         }
-        self.keyword_suf_handler = {
+        self.suf_keyword = {
             f"{dog_name}": self.action.woof,
             "汪": self.action.more_woof,
             "握手": self.action.shake_hand,
@@ -55,13 +55,13 @@ class KeywordResponse(BaseCog):
             return
 
         # prevent
-        responses.extend(self.keywords_handler(self.keyword_pre_handler, message))
+        responses.extend(self.keywords_handler(self.pre_keyword, message))
         responses.extend(
             self.mult_keywords_handler(self.multiple_pre_keywords, message)
         )
 
         # suffix
-        responses.extend(self.keywords_handler(self.keyword_suf_handler, message))
+        responses.extend(self.keywords_handler(self.suf_keyword, message))
         responses.extend(
             self.mult_keywords_handler(self.multiple_suf_keywords, message)
         )
